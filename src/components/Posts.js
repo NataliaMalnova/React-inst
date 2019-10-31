@@ -1,14 +1,40 @@
 import React, {Component} from 'react';
-import Post from './Post';
+import InstaServices from '../services/instaService.js';
+
 
 export default class Posts extends Component {
+
+    InstaService = new InstaServices();
+    state = {
+        posts: [],
+        error: false
+    }
+
+    componentDidMount() {
+        this.updatePosts();
+    }
+
+    updatePosts() {
+        this.InstaService.getAllPosts().then(this.onPostsLoaded).catch(this.onError);
+    }
+
+    onPostsLoaded = (posts) => {
+        this.setState({
+            posts,
+            error: false
+        }); 
+    }
+
+    onError = (err) => {
+        this.setState({
+            error: true
+        }); 
+    }
+
     render () {
         return (
             <div className="left">
-                
-                <Post src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQB4zDv9VXGwyqufgdPTh2hdEfPU1aPlxr-P_FhEE-8TA8TnKs&s" alt = "inst" />
-                <Post src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQB4zDv9VXGwyqufgdPTh2hdEfPU1aPlxr-P_FhEE-8TA8TnKs&s" alt = "inst" />
-
+                 
             </div>
         )
     }
